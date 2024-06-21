@@ -1,11 +1,15 @@
 package org.limepepper.demo;
 
+import com.almasb.fxgl.minigames.lockpicking.LockPickView;
+import javafx.application.HostServices;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.limepepper.demo.ai.MinimaxService;
 import org.limepepper.demo.command.CommandManager;
@@ -15,13 +19,17 @@ import org.limepepper.demo.helper.BoardHelper;
 import org.limepepper.demo.model.Game;
 import org.limepepper.demo.model.Move;
 import org.limepepper.demo.ui.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
 
 
 /**
  * this is a POJO controller class
-
  */
 public class GameController {
+    private static final Logger logger = LoggerFactory.getLogger(GameController.class);
 
     Game game;
     Stage stage;
@@ -31,8 +39,13 @@ public class GameController {
     BorderPane root;
     private final CommandManager commandManager = CommandManager.getInstance();
 
+    FileChooser fileChooser = new FileChooser();
+
+    HostServices hostServices;
+
     public GameController(Stage stage) {
         this.stage = stage;
+        hostServices = (HostServices) stage.getProperties().get("hostServices");
     }
 
     public void startNewGame() {
@@ -48,27 +61,25 @@ public class GameController {
     public void renderBoard1() {
 
         stage.setWidth(800);
-        stage.setHeight(645);
-
-
+        stage.setHeight(750);
 
         // create the root of the window
         root = new BorderPane();
 
         // regular menu (File, Edit, Help)
-        MenuBar menubar = MainMenu.create();
+        MenuBar menubar = UiMainMenu.create();
         menubar.prefWidthProperty().bind(stage.widthProperty());
 
         // game buttons (Dump, Undo, Restart)
         UiButtonBar buttonBar = UiButtonBar.create();
 
         VBox topBox = new VBox();
-        topBox.getChildren().addAll(menubar,buttonBar);
+        topBox.getChildren().addAll(menubar, buttonBar);
 
 
         root.setTop(topBox);
-        
-        NotificationArea notificationArea = NotificationArea.create();
+
+        UiNotificationArea notificationArea = UiNotificationArea.create();
 
         HBox content = new HBox();
         content.getChildren().addAll(gridPane, notificationArea);
@@ -83,6 +94,15 @@ public class GameController {
 
         root.setBottom(statusBar);
 
+        stage.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            switch (event.getCode()) {
+                case F1:
+                    System.out.println("YAYY GOT IT HERE");
+                    hostServices.showDocument("http://stackoverflow.com/");
+                    break;
+            }
+        });
+
         stage.addEventFilter(
                 GameEvent.MOVE,
                 event -> {
@@ -95,7 +115,7 @@ public class GameController {
                         gridPane.updateBoard();
                         notificationArea.appendText(event.getMove().toString() + "\n");
                         root.fireEvent(GameEvent.createMoved(new Move(x, y)));
-                    }else {
+                    } else {
                         System.out.println("Invalid move");
                     }
                 }
@@ -104,20 +124,40 @@ public class GameController {
         stage.addEventFilter(
                 GameEvent.UNDO,
                 event -> {
-                    System.out.println("handling undoing");
+                    logger.debug("addEventFilter handling undoing");
                     commandManager.undo();
                     notificationArea.appendText(event.getMessage() + "\n");
-                    gridPane.updateBoard()  ;
+                    gridPane.updateBoard();
                 }
         );
+
+//        stage.addEventFilter(
+//                GameEvent.UNDO,
+//                event -> {
+//                    logger.trace("addEventFilter handling undoing");
+//                    commandManager.undo();
+//                    notificationArea.appendText(event.getMessage() + "\n");
+//                    gridPane.updateBoard();
+//                }
+//        );
 
         stage.addEventFilter(
                 GameEvent.REDO,
                 event -> {
-                    System.out.println("handling redoing");
+                    logger.trace("handling redoing");
                     commandManager.redo();
                     notificationArea.appendText(event.getMessage() + "\n");
-                    gridPane.updateBoard()  ;
+                    gridPane.updateBoard();
+                }
+        );
+        stage.addEventFilter(
+                GameEvent.RESTART,
+                event -> {
+                    logger.trace("handling restarting");
+                    notificationArea.appendText(event.getMessage() + "\n");
+                    game.restart();
+                    commandManager.reset();
+                    gridPane.updateBoard();
                 }
         );
 
@@ -144,16 +184,7 @@ public class GameController {
                 GameEvent.DUMP,
                 event -> {
                     notificationArea.appendText(event.getMessage() + "\n");
-                    System.out.println(game.board.toString());
-                }
-        );
-        stage.addEventFilter(
-                GameEvent.RESTART,
-                event -> {
-                    System.out.println("handling restarting");
-                    notificationArea.appendText(event.getMessage() + "\n");
-                    game.restart();
-                    gridPane.updateBoard();
+                    logger.info(game.board.toString());
                 }
         );
 
@@ -169,6 +200,20 @@ public class GameController {
 
         stage.setTitle("Hello!");
         stage.setScene(scene);
+
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Text Files", "*.jpg")
+                , new FileChooser.ExtensionFilter("HTML Files", "*.png")
+        );
+
+//        GameApplication.eventBus.addEventHandler(GameEvent.FILE_OPEN, event -> {
+//            System.out.println("handling FILE_OPEN in event handler - in controller");
+//            //handleMove(event.getMove().getX(),event.getMove().getY());
+//            File selectedFile = fileChooser.showOpenDialog(stage);
+//
+//            notificationArea.appendText("XXX\n");
+//        });
+
         stage.show();
     }
 

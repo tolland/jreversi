@@ -9,33 +9,38 @@ import org.limepepper.demo.command.CommandManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MainMenu extends MenuBar {
+public class UiMainMenu extends MenuBar {
 
-    private static final Logger logger = LoggerFactory.getLogger(MainMenu.class);
+    private static final Logger logger = LoggerFactory.getLogger(UiMainMenu.class);
 
     final Menu fileMenu;
     final Menu editMenu;
     final Menu helpMenu;
 
-
-    private void testxxx() {
-
-    }
-
-    private MainMenu() {
+    private UiMainMenu() {
         super();
 
-        var handler = new MainMenuHandler();
+
+        //setUseSystemMenuBar(false);
+        setAccessibleHelp("Main Menu");
+
+
+        var handler = new UiMainMenuHandler();
 
         fileMenu = new Menu("File");
+
         MenuItem filemenu1 = new MenuItem("New");
         filemenu1.setOnAction(handler);
+
+        MenuItem filemenuOpen = new MenuItem("Open");
+        filemenuOpen.setId("file-open");
+        filemenuOpen.setOnAction(handler);
         MenuItem filemenu2 = new MenuItem("Save");
         filemenu2.setOnAction(handler);
         MenuItem filemenu3 = new MenuItem("Exit");
         filemenu3.setId("file-exit");
         filemenu3.setOnAction(handler);
-        fileMenu.getItems().addAll(filemenu1, filemenu2, filemenu3);
+        fileMenu.getItems().addAll(filemenu1, filemenuOpen, filemenu2, filemenu3);
 
         editMenu = new Menu("Edit");
         MenuItem editMenuUndo = new MenuItem("Undo");
@@ -78,7 +83,7 @@ public class MainMenu extends MenuBar {
         getMenus().addAll(fileMenu, editMenu, helpMenu);
     }
 
-    public static MainMenu create() {
-        return new MainMenu();
+    public static UiMainMenu create() {
+        return new UiMainMenu();
     }
 }

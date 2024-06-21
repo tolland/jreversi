@@ -1,8 +1,13 @@
 package org.limepepper.demo.command;
 
+import org.limepepper.demo.GameController;
 import org.limepepper.demo.model.Game;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MakeMove implements Command {
+    private static final Logger logger = LoggerFactory.getLogger(MakeMove.class);
+
     private final int x;
     private final int y;
     private final Game game;
@@ -24,7 +29,7 @@ public class MakeMove implements Command {
     @Override
     public void undo() {
         // undo move
-        System.out.println("Undoing move at " + x + ", " + y);
+        logger.debug("Undoing move at " + x + ", " + y);
         game.undo();
     }
 

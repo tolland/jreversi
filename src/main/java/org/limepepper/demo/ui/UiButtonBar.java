@@ -2,18 +2,20 @@ package org.limepepper.demo.ui;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.*;
-import org.limepepper.demo.command.Command;
 import org.limepepper.demo.command.CommandManager;
-import org.limepepper.demo.command.UndoListener;
 import org.limepepper.demo.event.GameEvent;
-
-import java.util.Stack;
+import org.limepepper.demo.model.Tile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * the one with the buttons
  */
-public class UiButtonBar extends ButtonBar {
+public class UiButtonBar extends ToolBar {
+
+    private static final Logger logger = LoggerFactory.getLogger(UiButtonBar.class);
 
     private UiButtonBar() {
         super();
@@ -34,12 +36,12 @@ public class UiButtonBar extends ButtonBar {
             }
         });
 
-        addButton(btnDumpBoard);
+        add(btnDumpBoard);
 
         Button btnUndo = new Button("Undo");
         btnUndo.setDisable(true);
         btnUndo.setOnAction(event -> {
-            System.out.println("undoing");
+            logger.debug("handling action on button - undoing");
             fireEvent(GameEvent.createUndo());
         });
 
@@ -49,10 +51,10 @@ public class UiButtonBar extends ButtonBar {
             } else {
                 btnUndo.setDisable(true);
             }
-            System.out.println("doing stuff here");
+            logger.debug("handling disabling undo button");
         });
 
-        addButton(btnUndo);
+        add(btnUndo);
 
         Button btnRedo = new Button("Redo");
         btnRedo.setDisable(true);
@@ -71,11 +73,11 @@ public class UiButtonBar extends ButtonBar {
             } else {
                 btnRedo.setDisable(true);
             }
-            System.out.println("doing stuff here in redo");
+            logger.debug("considering whether ti disable redo");
         });
 
 
-        addButton(btnRedo);
+        add(btnRedo);
 
         Button btnRestart = new Button("Restart");
 
@@ -88,7 +90,7 @@ public class UiButtonBar extends ButtonBar {
 
             }
         });
-        addButton(btnRestart);
+        add(btnRestart);
 
         //Label lightPlayerType = new Label("White: Human");
 
@@ -110,7 +112,7 @@ public class UiButtonBar extends ButtonBar {
         //lightPlayerType.setMnemonicParsing(true);
 
         //getButtons().add(lightPlayerType);
-        getButtons().add(lightPlayerMenuButton);
+        add(lightPlayerMenuButton);
 
       //  Label darkPlayerType = new Label("Black: Computer");
         MenuItem darkPlayerMenuItem1 = new MenuItem("Human");
@@ -126,7 +128,13 @@ public class UiButtonBar extends ButtonBar {
    //     darkPlayerType.setMnemonicParsing(true);
 
       //  getButtons().add(darkPlayerType);
-        getButtons().add(darkPlayerMenuButton);
+        add(darkPlayerMenuButton);
+
+        ComboBox lightPlayerType = UiPlayerTypeSelector.create(Tile.LIGHT);
+
+        add(lightPlayerType);
+
+
 
 
     }
@@ -135,7 +143,7 @@ public class UiButtonBar extends ButtonBar {
         return new UiButtonBar();
     }
 
-    public void addButton(Button button) {
-        getButtons().add(button);
+    public void add(Node node) {
+        getItems().add(node);
     }
 }

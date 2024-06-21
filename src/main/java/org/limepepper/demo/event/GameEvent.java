@@ -27,6 +27,7 @@ public class GameEvent extends Event {
     public static final EventType<GameEvent> REDO = new EventType<>(Event.ANY, "GAME_EVENT_REDO");
     public static final EventType<GameEvent> RESTART = new EventType<>(Event.ANY, "GAME_EVENT_RESTART");
     public static final EventType<GameEvent> UPDATED = new EventType<>(Event.ANY, "GAME_EVENT_UPDATED");
+    public static final EventType<GameEvent> FILE_OPEN = new EventType<>(Event.ANY, "GAME_EVENT_FILE_OPEN");
     public static final EventType<GameEvent> ANY = MOVE;
 
     private GameEvent(EventType<? extends Event> eventType, String message, Move move) {
@@ -73,6 +74,11 @@ public class GameEvent extends Event {
     // <T extends Event>
     public static GameEvent createUpdated(String message) {
         return new GameEvent(GameEvent.UPDATED, message, null);
+    }
+
+    // <T extends Event>
+    public static GameEvent fileOpen() {
+        return new GameEvent(GameEvent.FILE_OPEN, "file open message", null);
     }
 
     public String getMessage() {

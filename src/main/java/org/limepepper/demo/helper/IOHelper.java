@@ -3,7 +3,6 @@ package org.limepepper.demo.helper;
 import org.limepepper.demo.Config;
 import org.limepepper.demo.model.Board;
 import org.limepepper.demo.model.Tile;
-import org.limepepper.demo.ui.MainMenu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -6,6 +6,7 @@ open module org.limepepper.demo {
     requires com.almasb.fxgl.all;
     requires org.json;
     requires org.slf4j;
+    requires FXEventBus;
 
     //opens org.limepepper.demo to javafx.fxml;
     exports org.limepepper.demo;

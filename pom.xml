@@ -19,6 +19,13 @@
     <javafx.version>17.0.6</javafx.version>
   </properties>
 
+  <repositories>
+    <repository>
+      <id>maven.imagej.net</id>
+      <url>https://maven.imagej.net/content/repositories/public/</url>
+    </repository>
+  </repositories>
+
   <dependencies>
     <dependency>
       <groupId>org.openjfx</groupId>
@@ -66,7 +73,12 @@
       <artifactId>logback-classic</artifactId>
       <version>1.4.14</version>
     </dependency>
-
+    <!-- https://mvnrepository.com/artifact/com.github.AlmasB/FXEventBus -->
+    <dependency>
+      <groupId>com.github.AlmasB</groupId>
+      <artifactId>FXEventBus</artifactId>
+      <version>1.0</version>
+    </dependency>
   </dependencies>
 
   <reporting>

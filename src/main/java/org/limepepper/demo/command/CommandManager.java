@@ -45,6 +45,12 @@ public class CommandManager {
         }
     }
 
+    public void reset() {
+        redoStack.clear();
+        undoStack.clear();
+        notifyObservers();
+    }
+
     public void notifyObservers() {
         listeners.forEach(listener -> {
             listener.onEvent(undoStack, redoStack);

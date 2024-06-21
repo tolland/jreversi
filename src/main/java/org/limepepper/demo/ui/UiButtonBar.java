@@ -90,7 +90,7 @@ public class UiButtonBar extends ButtonBar {
         });
         addButton(btnRestart);
 
-        Label lightPlayerType = new Label("White: Human");
+        //Label lightPlayerType = new Label("White: Human");
 
         MenuItem lightPlayerMenuItem1 = new MenuItem("Human");
         lightPlayerMenuItem1.setId("LightPlayerHuman");
@@ -106,13 +106,13 @@ public class UiButtonBar extends ButtonBar {
             }
         });
 
-        lightPlayerType.setLabelFor(lightPlayerMenuButton);
-        lightPlayerType.setMnemonicParsing(true);
+        //lightPlayerType.setLabelFor(lightPlayerMenuButton);
+        //lightPlayerType.setMnemonicParsing(true);
 
-        getButtons().add(lightPlayerType);
+        //getButtons().add(lightPlayerType);
         getButtons().add(lightPlayerMenuButton);
 
-        Label darkPlayerType = new Label("Black: Computer");
+      //  Label darkPlayerType = new Label("Black: Computer");
         MenuItem darkPlayerMenuItem1 = new MenuItem("Human");
         darkPlayerMenuItem1.setId("DarkPlayerHuman");
         darkPlayerMenuItem1.setOnAction(handler);
@@ -122,10 +122,10 @@ public class UiButtonBar extends ButtonBar {
 
         darkPlayerMenuButton.getItems().addAll(darkPlayerMenuItem1, darkPlayerMenuItem2);
 
-        darkPlayerType.setLabelFor(darkPlayerMenuButton);
-        darkPlayerType.setMnemonicParsing(true);
+  //      darkPlayerType.setLabelFor(darkPlayerMenuButton);
+   //     darkPlayerType.setMnemonicParsing(true);
 
-        getButtons().add(darkPlayerType);
+      //  getButtons().add(darkPlayerType);
         getButtons().add(darkPlayerMenuButton);
 
 

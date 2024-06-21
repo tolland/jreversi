@@ -1,0 +1,8 @@
+
+.menu-item {
+    -fx-padding: 5px 15px 5px 15px;
+}
+
+.mnemonic-underline {
+    -fx-stroke: -fx-text-fill;
+}

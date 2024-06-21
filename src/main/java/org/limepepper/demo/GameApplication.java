@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 public class GameApplication extends Application {
     private static final Logger logger = LoggerFactory.getLogger(GameApplication.class);
 
-   // public static EventBus eventBus = new FXEventBus();
+   public static EventBus eventBus = new FXEventBus();
 
     public static void main(String[] args) {
         Application.launch(GameApplication.class);

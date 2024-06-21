@@ -4,6 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import org.limepepper.demo.command.CommandManager;
 import org.limepepper.demo.event.GameEvent;
 import org.limepepper.demo.model.Tile;
@@ -25,6 +27,7 @@ public class UiButtonBar extends ToolBar {
         var handler = new UiButtonBarHandler(lightPlayerMenuButton,                darkPlayerMenuButton        );
 
         Button btnDumpBoard = new Button("Dump");
+        btnDumpBoard.setTooltip(new Tooltip("Serialize the board to console"));
 
         btnDumpBoard.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -40,6 +43,7 @@ public class UiButtonBar extends ToolBar {
 
         Button btnUndo = new Button("Undo");
         btnUndo.setDisable(true);
+        btnUndo.setTooltip(new Tooltip("Unmake that move"));
         btnUndo.setOnAction(event -> {
             logger.debug("handling action on button - undoing");
             fireEvent(GameEvent.createUndo());
@@ -80,6 +84,16 @@ public class UiButtonBar extends ToolBar {
         add(btnRedo);
 
         Button btnRestart = new Button("Restart");
+
+        Tooltip tooltip = new Tooltip("Resets the game and remove history");
+        Image image = new Image(
+                getClass().getResourceAsStream("/images/warn.png")
+        );
+        tooltip.setGraphic(new ImageView(image));
+
+        btnRestart.setTooltip(tooltip);
+
+
 
         btnRestart.setOnAction(new EventHandler<ActionEvent>() {
             @Override

@@ -27,7 +27,7 @@ public class UiMainMenuHandler implements EventHandler<ActionEvent> {
                     FileChooser fileChooser = new FileChooser();
 //                    File selectedFile = fileChooser.showOpenDialog(stage);
                     //fireEvent(GameEvent.createLoadGame(selectedFile));
-                    //GameApplication.eventBus.fireEvent(GameEvent.fileOpen());
+                    GameApplication.eventBus.fireEvent(GameEvent.fileOpen());
                     break;
                 case "file-exit":
                     System.exit(0);

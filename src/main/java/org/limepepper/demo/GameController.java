@@ -199,6 +199,10 @@ public class GameController {
         Scene scene = new Scene(root, 650, 650, Color.ALICEBLUE);
 
         stage.setTitle("Hello!");
+
+        scene.getStylesheets().add(getClass().getResource("/style/menu.css").toExternalForm());
+
+
         stage.setScene(scene);
 
         fileChooser.getExtensionFilters().addAll(
@@ -206,13 +210,13 @@ public class GameController {
                 , new FileChooser.ExtensionFilter("HTML Files", "*.png")
         );
 
-//        GameApplication.eventBus.addEventHandler(GameEvent.FILE_OPEN, event -> {
-//            System.out.println("handling FILE_OPEN in event handler - in controller");
-//            //handleMove(event.getMove().getX(),event.getMove().getY());
-//            File selectedFile = fileChooser.showOpenDialog(stage);
-//
-//            notificationArea.appendText("XXX\n");
-//        });
+        GameApplication.eventBus.addEventHandler(GameEvent.FILE_OPEN, event -> {
+            System.out.println("handling FILE_OPEN in event handler - in controller");
+            //handleMove(event.getMove().getX(),event.getMove().getY());
+            File selectedFile = fileChooser.showOpenDialog(stage);
+
+            notificationArea.appendText("XXX\n");
+        });
 
         stage.show();
     }

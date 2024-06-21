@@ -21,7 +21,7 @@ public class MakeMove implements Command {
     @Override
     public void execute() {
         // make move
-        System.out.println("Making move at " + x + ", " + y);
+        logger.trace("Making move at " + x + ", " + y);
         game.makeMove(x, y, game.getCurrentPlayer());
 
     }
@@ -36,7 +36,7 @@ public class MakeMove implements Command {
     @Override
     public void redo() {
         // redo move
-        System.out.println("Redoing move at " + x + ", " + y);
+        logger.trace("Redoing move at " + x + ", " + y);
         game.makeMove(x, y, game.getCurrentPlayer());
     }
 }
